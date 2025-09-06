@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenwood Private School - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-background">
+            <div class="login-form-container">
+                <div class="login-header">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h1>Greenwood Private School</h1>
+                    <p>Management System</p>
+                </div>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="schoolId">School ID Number</label>
+                        <div class="input-group">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="schoolId" name="schoolId" placeholder="Enter your school ID" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="rememberMe">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        <span>Login</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    
+                    <div class="login-help">
+                        <p>Need help? Contact: <a href="mailto:admin@greenwoodschool.edu">admin@greenwoodschool.edu</a></p>
+                    </div>
+                </form>
+                
+                <div id="errorMessage" class="error-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management System Dashboard -->
+    <div id="dashboardPage" class="dashboard-container" style="display: none;">
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="header-info">
+                        <h1>Greenwood Private School</h1>
+                        <p>Management System</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <span id="userWelcome">Welcome, Admin</span>
+                        <div class="user-avatar">A</div>
+                    </div>
+                    <button id="logoutBtn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="navigation">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-tab" data-tab="students">
+                    <i class="fas fa-users"></i>
+                    <span>Students</span>
+                </button>
+                <button class="nav-tab" data-tab="teachers">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Teachers</span>
+                </button>
+                <button class="nav-tab" data-tab="fees">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Fee Management</span>
+                </button>
+                <button class="nav-tab" data-tab="classes">
+                    <i class="fas fa-book-open"></i>
+                    <span>Classes</span>
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div id="dashboardContent" class="tab-content active">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Total Students</h3>
+                            <p class="card-value">1,245</p>
+                            <small>Active enrollments</small>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon green">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Revenue Collected</h3>
+                            <p class="card-value">$245,600</p>
+                            <small>This academic year</small>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon orange">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Pending Fees</h3>
+                            <p class="card-value">$34,200</p>
+                            <small>Outstanding payments</small>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon purple">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Total Teachers</h3>
+                            <p class="card-value">85</p>
+                            <small>Faculty members</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-sections">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-book-open"></i> Recent Admissions</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="recent-item">
+                                <div class="item-info">
+                                    <h4>John Smith</h4>
+                                    <p>Class 10A • 2023-08-15</p>
+                                </div>
+                                <span class="status paid">Paid</span>
+                            </div>
+                            <div class="recent-item">
+                                <div class="item-info">
+                                    <h4>Emma Johnson</h4>
+                                    <p>Class 9B • 2023-08-16</p>
+                                </div>
+                                <span class="status pending">Pending</span>
+                            </div>
+                            <div class="recent-item">
+                                <div class="item-info">
+                                    <h4>Michael Brown</h4>
+                                    <p>Class 11A • 2023-08-17</p>
+                                </div>
+                                <span class="status partial">Partial</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-users"></i> Class Overview</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="class-item">
+                                <div class="class-info">
+                                    <h4>Class 9A</h4>
+                                    <p>Ms. Lisa Wilson</p>
+                                </div>
+                                <div class="class-stats">
+                                    <span>28 Students</span>
+                                    <small>Room 101</small>
+                                </div>
+                            </div>
+                            <div class="class-item">
+                                <div class="class-info">
+                                    <h4>Class 10A</h4>
+                                    <p>Dr. Alice Williams</p>
+                                </div>
+                                <div class="class-stats">
+                                    <span>30 Students</span>
+                                    <small>Room 201</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="studentsContent" class="tab-content">
+                <div class="page-header">
+                    <h2>Student Management</h2>
+                    <button class="add-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Student
+                    </button>
+                </div>
+                <div class="content-card">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search students...">
+                    </div>
+                    <div class="table-container">
+                        <p>Student management functionality would be implemented here...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="teachersContent" class="tab-content">
+                <div class="page-header">
+                    <h2>Teacher Management</h2>
+                    <button class="add-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Teacher
+                    </button>
+                </div>
+                <div class="content-card">
+                    <p>Teacher management functionality would be implemented here...</p>
+                </div>
+            </div>
+
+            <div id="feesContent" class="tab-content">
+                <div class="page-header">
+                    <h2>Fee Management</h2>
+                </div>
+                <div class="content-card">
+                    <p>Fee management functionality would be implemented here...</p>
+                </div>
+            </div>
+
+            <div id="classesContent" class="tab-content">
+                <div class="page-header">
+                    <h2>Class Management</h2>
+                </div>
+                <div class="content-card">
+                    <p>Class management functionality would be implemented here...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

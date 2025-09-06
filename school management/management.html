@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMaster - School Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>FLOCKS INTERNATIONAL SCHOOL COMPLEX</h2>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-page="dashboard">
+                        <i class="fas fa-chart-pie"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="students">
+                        <i class="fas fa-user-graduate"></i>
+                        <span class="nav-text">Students</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="teachers">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span class="nav-text">Teachers</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="salaries">
+                        <i class="fas fa-money-check-alt"></i>
+                        <span class="nav-text">Salaries</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="fees">
+                        <i class="fas fa-credit-card"></i>
+                        <span class="nav-text">Fees</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="analytics">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">Analytics</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span class="user-name">Admin User</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="print-btn" onclick="printCurrentPage()">
+                        <i class="fas fa-print"></i>
+                        Print Report
+                    </button>
+                    <div class="datetime" id="currentDateTime"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="dashboard-stats">
+                <div class="stat-card students-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Total Students</p>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+12%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card teachers-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalTeachers">0</h3>
+                        <p>Total Teachers</p>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card fees-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalFeesCollected">GHS 0</h3>
+                        <p>Fees Collected</p>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+8%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card salary-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-check-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalSalariesPaid">GHS 0</h3>
+                        <p>Salaries Paid</p>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>-3%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="chart-container">
+                    <h3><i class="fas fa-chart-bar"></i> Monthly Overview</h3>
+                    <div class="chart-placeholder">
+                        <canvas id="monthlyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="recent-activities">
+                    <h3><i class="fas fa-clock"></i> Recent Activities</h3>
+                    <div class="activity-list" id="recentActivities">
+                        <!-- Activities will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Page -->
+        <div id="students" class="page">
+            <div class="page-header">
+                <div class="page-actions">
+                    <button class="btn btn-primary" onclick="openStudentModal()">
+                        <i class="fas fa-plus"></i>
+                        Add Student
+                    </button>
+                    <button class="btn btn-secondary" onclick="printStudentsReport()">
+                        <i class="fas fa-print"></i>
+                        Print Students
+                    </button>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="Search students..." onkeyup="searchStudents(this.value)">
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <table class="data-table" id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Grade</th>
+                            <th>Age</th>
+                            <th>Parent Contact</th>
+                            <th>Fee Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <!-- Students data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Teachers Page -->
+        <div id="teachers" class="page">
+            <div class="page-header">
+                <div class="page-actions">
+                    <button class="btn btn-primary" onclick="openTeacherModal()">
+                        <i class="fas fa-plus"></i>
+                        Add Teacher
+                    </button>
+                    <button class="btn btn-secondary" onclick="printTeachersReport()">
+                        <i class="fas fa-print"></i>
+                        Print Teachers
+                    </button>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="Search teachers..." onkeyup="searchTeachers(this.value)">
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <table class="data-table" id="teachersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Experience</th>
+                            <th>Contact</th>
+                            <th>Monthly Salary</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teachersTableBody">
+                        <!-- Teachers data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Salaries Page -->
+        <div id="salaries" class="page">
+            <div class="page-header">
+                <div class="page-actions">
+                    <button class="btn btn-success" onclick="markAllSalariesPaid()">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Pay All Salaries
+                    </button>
+                    <button class="btn btn-secondary" onclick="printSalariesReport()">
+                        <i class="fas fa-print"></i>
+                        Print Salaries
+                    </button>
+                </div>
+                <div class="filters-container">
+                    <select id="monthFilter" onchange="filterSalariesByMonth()" class="filter-select">
+                        <option value="">All Months</option>
+                        <option value="2025-01">January 2025</option>
+                        <option value="2025-02">February 2025</option>
+                        <option value="2025-03">March 2025</option>
+                        <option value="2025-04">April 2025</option>
+                        <option value="2025-05">May 2025</option>
+                        <option value="2025-06">June 2025</option>
+                        <option value="2025-07">July 2025</option>
+                        <option value="2025-08">August 2025</option>
+                        <option value="2025-09">September 2025</option>
+                        <option value="2025-10">October 2025</option>
+                        <option value="2025-11">November 2025</option>
+                        <option value="2025-12">December 2025</option>
+                    </select>
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" placeholder="Search salary records..." onkeyup="searchSalaries(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <table class="data-table" id="salariesTable">
+                    <thead>
+                        <tr>
+                            <th>Teacher ID</th>
+                            <th>Teacher Name</th>
+                            <th>Subject</th>
+                            <th>Monthly Salary</th>
+                            <th>Month</th>
+                            <th>Payment Status</th>
+                            <th>Payment Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salariesTableBody">
+                        <!-- Salary data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Fees Page -->
+        <div id="fees" class="page">
+            <div class="page-header">
+                <div class="page-actions">
+                    <button class="btn btn-secondary" onclick="printFeesReport()">
+                        <i class="fas fa-print"></i>
+                        Print Fee Records
+                    </button>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="Search fee records..." onkeyup="searchFees(this.value)">
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <table class="data-table" id="feesTable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Total Fee</th>
+                            <th>Paid Amount</th>
+                            <th>Remaining</th>
+                            <th>Status</th>
+                            <th>Last Payment</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feesTableBody">
+                        <!-- Fee data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div id="analytics" class="page">
+            <div class="analytics-header">
+                <div class="page-actions">
+                    <button class="btn btn-secondary" onclick="printAnalyticsReport()">
+                        <i class="fas fa-print"></i>
+                        Print Analytics
+                    </button>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3><i class="fas fa-chart-pie"></i> Performance Overview</h3>
+                    <div class="performance-stats">
+                        <div class="perf-item">
+                            <span class="perf-label">Average Grade</span>
+                            <span class="perf-value">B+</span>
+                        </div>
+                        <div class="perf-item">
+                            <span class="perf-label">Attendance Rate</span>
+                            <span class="perf-value">94%</span>
+                        </div>
+                        <div class="perf-item">
+                            <span class="perf-label">Completion Rate</span>
+                            <span class="perf-value">87%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3><i class="fas fa-chart-line"></i> Trends</h3>
+                    <div class="trend-chart">
+                        <canvas id="trendChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3><i class="fas fa-users"></i> Class Distribution</h3>
+                    <div class="class-distribution">
+                        <div class="class-item">
+                            <span>Grade 1-3</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%"></div>
+                            </div>
+                            <span>35%</span>
+                        </div>
+                        <div class="class-item">
+                            <span>Grade 4-6</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 28%"></div>
+                            </div>
+                            <span>28%</span>
+                        </div>
+                        <div class="class-item">
+                            <span>Grade 7-9</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 22%"></div>
+                            </div>
+                            <span>22%</span>
+                        </div>
+                        <div class="class-item">
+                            <span>Grade 10-12</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 15%"></div>
+                            </div>
+                            <span>15%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Add New Student</h2>
+                <button class="close-btn" onclick="closeStudentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="studentForm" class="modal-form">
+                <div class="form-group">
+                    <label>Student Name</label>
+                    <input type="text" id="studentName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Grade</label>
+                        <select id="studentGrade" required>
+                            <option value="">Select Grade</option>
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4">Grade 4</option>
+                            <option value="5">Grade 5</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                            <option value="11">Grade 11</option>
+                            <option value="12">Grade 12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="studentAge" min="5" max="20" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Parent Contact</label>
+                    <input type="tel" id="parentContact" required>
+                </div>
+                <div class="form-group">
+                    <label>Annual Fee (GHS)</label>
+                    <input type="number" id="studentFee" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-save"></i>
+                    Add Student
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Teacher Modal -->
+    <div id="teacherModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Add New Teacher</h2>
+                <button class="close-btn" onclick="closeTeacherModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="teacherForm" class="modal-form">
+                <div class="form-group">
+                    <label>Teacher Name</label>
+                    <input type="text" id="teacherName" required>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" id="teacherSubject" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Experience (years)</label>
+                        <input type="number" id="teacherExperience" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="tel" id="teacherContact" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Monthly Salary (GHS)</label>
+                    <input type="number" id="teacherSalary" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-save"></i>
+                    Add Teacher
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student History Modal -->
+    <div id="studentHistoryModal" class="modal history-modal">
+        <div class="modal-content history-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-history"></i> Student History Report</h2>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="printStudentHistory()">
+                        <i class="fas fa-print"></i>
+                        Print History
+                    </button>
+                    <button class="close-btn" onclick="closeStudentHistoryModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="history-content" id="studentHistoryContent">
+                <!-- Student history content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher History Modal -->
+    <div id="teacherHistoryModal" class="modal history-modal">
+        <div class="modal-content history-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-history"></i> Teacher History Report</h2>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="printTeacherHistory()">
+                        <i class="fas fa-print"></i>
+                        Print History
+                    </button>
+                    <button class="close-btn" onclick="closeTeacherHistoryModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="history-content" id="teacherHistoryContent">
+                <!-- Teacher history content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Fee Payment Modal -->
+    <div id="feePaymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-dollar-sign"></i> Record Fee Payment</h2>
+                <button class="close-btn" onclick="closeFeePaymentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="feePaymentForm" class="modal-form">
+                <div class="form-group">
+                    <label>Student Name</label>
+                    <input type="text" id="paymentStudentName" readonly>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Total Fee (GHS)</label>
+                        <input type="number" id="paymentTotalFee" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Already Paid (GHS)</label>
+                        <input type="number" id="paymentAlreadyPaid" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Payment Amount (GHS)</label>
+                    <input type="number" id="paymentAmount" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="cash">Cash</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                        <option value="mobile_money">Mobile Money</option>
+                        <option value="cheque">Cheque</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-save"></i>
+                    Record Payment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Print Container (Hidden) -->
+    <div id="printContainer" class="print-container" style="display: none;">
+        <!-- Print content will be generated here -->
+    </div>
+
+    <!-- Individual Print Container for History (Hidden) -->
+    <div id="individualPrintContainer" class="print-container individual-print" style="display: none;">
+        <!-- Individual history print content will be generated here -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
